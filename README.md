@@ -5,7 +5,7 @@ HER method brings a new perspective of spatial interpolation and uncertainty ana
 
 The codes and data sets are complementary parts of the study proposed by Thiesen, Vieira, Mälicke, Wellmann and Ehret (2020):
 
->_Thiesen, S.; Vieira, D.; Mälicke1, M.; Wellmann,  J. F.; Ehret, U.: HER: an information theoretic alternative for geostatistics._ 
+>_Thiesen, S.; Vieira, D.; Mälicke, M.; Loritz, R.; Wellmann,  J. F.; Ehret, U. HER: an information theoretic alternative for geostatistics, Hydrol. Earth Syst. Sci. Discuss., https://doi.org/10.5194/hess-2020-5, in review, 2020._ 
 
 ## License agreement
 

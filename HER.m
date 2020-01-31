@@ -139,30 +139,6 @@ for i = 1:length(edges_distance_classes)-1 %for each lag class
     H_diff_z_by_class(i,1) = f_entropy(pmf_diff_z_by_class_obs(i,:)); %calculate the entropy
 end
 
-% plot Infogram + Variogram
-fig = figure();
-left_color = [0 0 0.4];
-right_color = [.7 0 0];
-set(fig,'defaultAxesColorOrder',[left_color; right_color]);
-
-plot(bin_centers_distance_classes, H_diff_z_by_class./max(H_diff_z_by_class),'Marker', '.', 'MarkerSize', 20);
-
-yyaxis left
-ylabel('Normalized entropy [bit]');
-xlim([0 bin_centers_distance_classes(end-1)]);
-ylim([0 1]);
-
-yyaxis right
-plot(bin_centers_distance_classes, lag_variance./(max(lag_variance)),'Marker', '.', 'MarkerSize', 20);
-xlabel('lag [m]');
-ylabel('Normalized dissimilarity (1/2*mean(delta z²))');
-hold on 
-for i = 2 : length(edges_distance_classes)
-    line([edges_distance_classes(i),edges_distance_classes(i)], get(gca, 'ylim'),'Color','black','LineStyle','--');
-end
-ylim([0 1]);
-title('Normalized Infogram and Experimental variogram');
-
 % step 7: Define the info RANGE, and associate delta_z PMF of the full dataset to the distance classes beyond the range
 %calculate the PMF of the full dataset where the class entropy > full dataset entropy 
 %info RANGE: limit where the entropy of the lag class is greater than the 
@@ -217,6 +193,7 @@ if isnan(sum(pmf_diff_z_by_class_obs_range(:)))
     disp(str)
 end
 
+%
 % clear
 clear count str i j idx im jm k center_left center_right max_diff_z ...
     min_diff_z maxi mini ans left_color right_color samp ...
@@ -363,7 +340,7 @@ for i = 1:length(best_w_AND)-1
     w_AND_slope(i) = (best_w_AND(i+1) - best_w_AND(i)) / (edges_distance_classes_range(i+1) - edges_distance_classes_range(i));    
 end
 
-w_AND_slope(n_classes_range) = 0;%w_OR_slope(n_classes-1); %adjusted!
+w_AND_slope(n_classes_range) = 0;%w_OR_slope(n_classes-1);
 
 %  step 8: Alpha and Beta PMF 
 %grid search for the linear combination of AND & OR combination of PMFs
@@ -372,7 +349,7 @@ beta = alpha;
 
 pmf_alpha_beta_nn = cell(length(alpha),length(z_cal)); %cell for the predicted z PMFs (row=set of weights, column=target)
 
-% finding the closest ones TODO check it
+% finding the closest ones
 n_neighbor_andor = n_neighbor - 1;
 
 idx_opt_nn = NaN(n_neighbor_andor,length(z_cal));
@@ -445,17 +422,6 @@ best_alpha = w_alpha_beta(idx_best_alpha_beta,1);
 best_beta = w_alpha_beta(idx_best_alpha_beta,2);
 pmf_z_obs_AND_OR = pmf_alpha_beta_nn(idx_best_alpha_beta,:); %the best z PMFs 
 
-% if find(DKL_w_alpha_beta==min(DKL_w_alpha_beta)) == 1
-%      disp('The best AND_OR combination is a pure AND.'); % TODO! why is this bad?
-% end
-
-% step 8.1: Plot the performance of weights AND_OR TODO check xticks %TODO
-% this plot!!!!
-%analyzing the results
-% xticks_ = cell(size(alpha));
-% for i = 1:length(DKL_w_alpha_beta)
-%     xticks_{i} = [ num2str(alpha(i)) '/' num2str(beta(i))];
-% end
 bin_centers_edges_z = [];
 bin_centers_edges_z = edges_z(1:length(edges_z)-1) + binwidth_z/2;
 
@@ -613,16 +579,88 @@ for target = 1:numel(x_target)%2463%4873
     [ pmf_alpha_beta_pred_nn{1,target} ] = pmf_;
 end
 
-% plot uncertainty results
+%% plots
+% Hist. # of pairs/class
+fig = figure();
+left_color = [0 0 0.4];
+right_color = [1 0 0];
+set(fig,'defaultAxesColorOrder',[left_color; right_color]);
+
+yyaxis right
+plot(1:n_lag, H_diff_z_by_class,'Marker', '.', 'Color', 'red', 'MarkerSize', 20);
+ylim([2.5, max(H_diff_z_by_class,[],'all')+max(H_diff_z_by_class,[],'all')/90])
+ylabel('Entropy [bit]');
+
+yyaxis left
+b = bar(1:n_lag,n_pairs_by_class);%, 'FaceColor',[0 .5 .5],'EdgeColor',[0 .9 .9],'LineWidth',1.5);
+b.FaceColor = 'flat';
+for i = 1:n_classes_range-1;
+    b.CData(i,:) = [0 0 .9];
+end
+xticks([1 5:5:n_lag]);
+ax = gca;
+ax.YMinorTick = 'on';
+ax.YAxis(1).MinorTickValues = 0:500:max(ylim);
+xlabel('Distance class');
+ylabel('Number of pairs');
+
+title({strcat('Relation between Entropy and the Number of pairs by class (used in the \Deltaz histogram) / ', txt, ' cal. set: ', num2str(dim_cal), ' obs.');''});
+pbaspect([1.5 1 1]);
+str = {['# of observations: ' num2str(length(z_cal)) ' (cal. set)'], ['# of pairs: ' ...
+    num2str(sum(n_pairs_by_class)) ' (' num2str(length(z_cal)) 'x' num2str(length(z_cal)-1) ')' ],...
+    ['# of pairs into the range: ' num2str(sum(n_pairs_by_class(1:n_classes_range-1))) ...
+    ' (' num2str(round(100*sum(n_pairs_by_class(1:n_classes_range-1))/sum(n_pairs_by_class),1)) '%)']};% ['# of pairs out of the range: ' num2str(sum(n_pairs_by_class(n_classes_range:end))) ' (' num2str(round(100*sum(n_pairs_by_class(n_classes_range:end))/sum(n_pairs_by_class),1)) '%)']};
+text(1,max(n_pairs_by_class)+max(n_pairs_by_class)/10,str);
+
+% plot Infogram + Variogram
+fig = figure();
+left_color = [0 0 0.4];
+right_color = [.7 0 0];
+set(fig,'defaultAxesColorOrder',[left_color; right_color]);
+
+plot(bin_centers_distance_classes, H_diff_z_by_class./max(H_diff_z_by_class),'Marker', '.', 'MarkerSize', 20);
+
+yyaxis left
+ylabel('Normalized entropy [bit]');
+xlim([0 bin_centers_distance_classes(end-1)]);
+ylim([0 1]);
+
+yyaxis right
+plot(bin_centers_distance_classes, lag_variance./(max(lag_variance)),'Marker', '.', 'MarkerSize', 20);
+xlabel('lag [m]');
+ylabel('Normalized dissimilarity (1/2*mean(delta z²))');
+hold on 
+for i = 2 : length(edges_distance_classes)
+    line([edges_distance_classes(i),edges_distance_classes(i)], get(gca, 'ylim'),'Color','black','LineStyle','--');
+end
+ylim([0 1]);
+title('Normalized Infogram and Experimental variogram');
+
+% delta-z PMF/class
+figure;
+ncols = 5;
+nrows = ceil(((length(bin_centers_distance_classes_range)) / ncols));
+
+for i = 1 : n_classes_range
+    subplot(nrows,ncols,i);
+    bar(edges_diff_z(1:end-1), pmf_diff_z_by_class_obs_range(i,:));%, 0.9, 'histc');
+    title(['class ' num2str(i) ' / dist.: (' num2str(floor(edges_distance_classes_range(i))) ', ' num2str(floor(edges_distance_classes_range(i+1))) '] ']);
+    pbaspect([3 1 1]);
+    xlabel('\Deltaz');
+    ylim([0, max(pmf_diff_z_by_class_obs_range,[],'all')+max(pmf_diff_z_by_class_obs_range,[],'all')/50]);
+    xlim([-5 5]);
+end
+title(['class ' num2str(i) ' (full dataset PMF)']);
+sgtitle({strcat('\Deltaz PMF by class / ', txt, ' cal. set:	', num2str(dim_cal), ' obs.');''});
+
+% plot mean-z map
 %calculate the entropy of the z PMFs for all predicted points 
 H_z_pmf_by_class_pred = NaN(numel(x_target),1); %vector for the entropy of the grid (xi,yi_analized)
 % H_z_pmf_by_class_obs = NaN(length(xm),1); %vector for the entropy of the known observations
 
-
 for target = 1:numel(x_target) %for each target
     H_z_pmf_by_class_pred(target,1) = f_entropy(cell2mat(pmf_alpha_beta_pred_nn(1,target))); %calculate the entropy
 end
-
 z_target_entropy_pred_plot = reshape(H_z_pmf_by_class_pred, size(x,1), size(x,2));
 
 % z mean, median, mode, probab
@@ -647,7 +685,6 @@ for target = 1:numel(x_target) %xi,yi_analized
     z_target_mode_pred(1,target) = bin_centers_edges_z(idx_); %bin center
 end
 
-%plot
 z_target_mean_pred_GRID_plot = reshape(z_target_mean_pred, size(x,1), size(x,2));
 z_target_median_pred_GRID_plot = reshape(z_target_median_pred, size(x,1), size(x,2));
 z_target_mode_pred_GRID_plot = reshape(z_target_mode_pred, size(x,1), size(x,2));
@@ -699,10 +736,44 @@ h=colorbar;
 caxis(clims);
 zlim([min(z, [], 'all'), max(z, [], 'all')]);
 
-% sgtitle(sprintf('Cal/Val HER exp. AND| %0.0f cal. obs. / %0.0f val. obs.', dim_cal, dim_val_6384));
-% saveas(gcf,sprintf('randomfield_output_her_dimens_cal%0.0f_neigh%0.0f_plusProb_expAND.fig', dim_cal, n_neighbor));
+% plot entropy map
+figure;
+pcolor(x, y, z_target_entropy_pred_plot);
+xlabel('x');
+ylabel('y');
+shading flat;
+colormap spring(8);
+set(gca,'ColorScale','log')
+h=colorbar;
+hold on;
+scatter(x_cal, y_cal, 1+70*normalize(z_cal,'range'),'k+','LineWidth',1);
+title({strcat('Entropy map [bits]  / ', txt, ' cal. set: ', num2str(dim_cal), 'obs.');''});
+pbaspect([1 1 1]);
+legend('Entropy [bits]','calibration set','Location', 'eastoutside');
 
-% clear and save
+%predicted z PMF
+randplot_set = [4616 4873];
+ncols = 2;
+nrows = ceil((length(randplot_set) / ncols));
+figure;
+i = 1;
+for target = randplot_set
+    subplot(nrows,ncols,i);
+    h1 = bar(bin_centers_edges_z, cell2mat(pmf_alpha_beta_pred_nn(1,target)), 'k');
+    hold on;
+    h2 = plot([z(target) z(target)], [0, 0.5], 'm--', 'LineWidth',1.5);
+    xlim([-5 5]);
+    ylim([0 0.2]);
+    xlabel('z');
+    title({['target ' num2str(target)] ,['H = ' num2str(round(z_target_entropy_pred_plot(target),2)) ' bits']});
+    i=i+1;
+    pbaspect([1 1 1]);
+end
+set(get(get(h1,'Annotation'),'LegendInformation'),'IconDisplayStyle','off');
+legend({['true z']});
+sgtitle({strcat('Predicted z PMF / ', txt, ' cal. set: ', num2str(dim_cal), 'obs.');''});
+
+% clear
 clear x_median_ y_median_ cmf_median_ idx_median_ str str1 weights_ pmfs_ idx probab_z_obs_ prob_ w obs class center_right center_left i class obs bin_ weights_ pmfs_ idx probab_z_obs prob w obs class center_right center_left i class obs_pred pmf_diff_z_plus_z_pred_ f_ idx_
 
 %% Calculate performance metrics
