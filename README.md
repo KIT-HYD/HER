@@ -1,4 +1,5 @@
 # HER: an information theoretic alternative for geostatistics
+
 In HER method, we propose a stochastic, geostatistical estimator which combines information theory with probability aggregation methods for minimizing predictive uncertainty, and predicting distributions directly based on empirical probability. Histogram via entropy reduction (HER) relaxes parametrizations, avoiding the risk of adding information not present in data (or losing available information). It provides a framework for uncertainty estimation that takes into account both spatial configuration and data values, while allowing to infer (or introduce) continuous or discontinuous characteristics of the field. 
 We investigate the framework utility using synthetically generated datasets from Gaussian Processes with different sample sizes and data properties (different spatial correlation distances and addition of noise). 
 HER method brings a new perspective of spatial interpolation and uncertainty analysis to geostatistics and statistical learning, using the lens of information theory.
@@ -28,28 +29,29 @@ See HER.m
 ### HER
 
 The script is divided in 7 sections:
-__1. Load dataset 
+
+__1. Load dataset__
 	Loads the dataset.
 	
-__2. Define infogram and Geo3 properties
+__2. Define infogram and Geo3 properties__
 	Definition of the infogram properties, aggregation method and grid for prediction.
 	
-__3. Geo1: Spatial characterization
+__3. Geo1: Spatial characterization__
 	Extracts spatial correlation patterns.
 
-__4. Geo2: Weight optimization
+__4. Geo2: Weight optimization__
 	Optimizes weights for the aggregation method based on entropy minimization.
 
-__5. Geo3: z PMF prediction
+__5. Geo3: z PMF prediction__
 	Applies spatial characterization and optimal weights for PMF prediction.
 	
-__6. Extract PMF statistics
+__6. Extract PMF statistics__
 	Obtains mean, median, mode and probability (optional) of the predicted z PMFs and plots the results.
 
-__7. Calculate performance metrics
+__7. Calculate performance metrics__
 	Calculates Root Mean Square Error (RMSE), Mean Error (ME), Mean Absolute Error (MAE), Nash-Sutcliffe model efficiency and scoring rule (DKL) of the validation set.  
 	
-__8. Clear
+__8. Clear__
 	Clears intermediate variables.
 
 ### Functions
@@ -75,16 +77,19 @@ f_plot_probabilitymap.m
 ```
 
 ### Dataset of the study
-The folder contains synthetic observations used in the paper case study. Four synthetic 2D spatial datasets with grid size 100x100 were generated from known Gaussian processes. We use rational quadratic kernel as the covariance function, with correlation lengths of 6 and 18 units. For both, short- and long-range fields, a white noise was introduced given by Gaussian distribution with mean 0 and standard deviation equal to 0.5. 
+
+The folder contains synthetic observations used in the paper case study. Four synthetic 2D spatial datasets with grid size 100x100 were generated from known Gaussian processes. We use rational quadratic kernel as the covariance function, with correlation lengths of 6 and 18 units. For both, short- and long-range fields, a white noise was introduced given by Gaussian distribution with mean 0 and standard deviation equal to 0.5.
+
 The generated sets comprise:
 	* SR0: short-range field without noise 
 	* SR1: short-range field with noise
 	* LR0: long-range field without noise 
 	* LR1: long-range field with noise
 We randomly shuffled the data, and then divided it in three mutually exclusive sets: one to generate the calibration subsets (sizes of 200, 400, 600, 800, 1000, 1500, and 2000), one for validation (containing 2000 data points), and another 2000 data points as test set.
- 
+
 Each dataset file contains:
-*__idx_rand_full:__ index of the randomly shuffled data (same for all files)
+
+* __idx_rand_full:__ index of the randomly shuffled data (same for all files)
 * __sample_size:__ all calibration sizes available of the dataset (same for all files)
 * __data:__ matrix with z values of the full generated dataset
 * __txt:__ dataset type (SR0, SR1, LR0, LR1)
