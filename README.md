@@ -9,16 +9,103 @@ The code and datasets are complementary parts of the study proposed by Thiesen, 
 
 ## License agreement
 
-The HER method comes with ABSOLUTELY NO WARRANTY. You are welcome to modify and redistribute it within the license agreement. The HER method is published under the CreativeComons "BY-NC-SA 4.0" license together with a ready-to-use sample data set. To view a full version of the license agreement please visit [BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+The HER method comes with ABSOLUTELY NO WARRANTY. You are welcome to modify and redistribute it within the license agreement. The HER method is published under the CreativeCommons "BY-NC-SA 4.0" license together with a ready-to-use sample data set. To view a full version of the license agreement please visit [BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
 
 ## Requisites
 
 * MATLAB (tested on 2018b).
 
-
 ## Usage
 
 See HER.m
+
+## File structure
+
+* HER script ... .m
+* functions/ ... .m
+* datasets/ ... .mat
+
+### HER
+
+The script is divided in 7 sections:
+__1. Load dataset 
+	Loads the dataset.
+	
+__2. Define infogram and Geo3 properties
+	Definition of the infogram properties, aggregation method and grid for prediction.
+	
+__3. Geo1: Spatial characterization
+	Extracts spatial correlation patterns.
+
+__4. Geo2: Weight optimization
+	Optimizes weights for the aggregation method based on entropy minimization.
+
+__5. Geo3: z PMF prediction
+	Applies spatial characterization and optimal weights for PMF prediction.
+	
+__6. Extract PMF statistics
+	Obtains mean, median, mode and probability (optional) of the predicted z PMFs and plots the results.
+
+__7. Calculate performance metrics
+	Calculates Root Mean Square Error (RMSE), Mean Error (ME), Mean Absolute Error (MAE), Nash-Sutcliffe model efficiency and scoring rule (DKL) of the validation set.  
+	
+__8. Clear
+	Clears intermediate variables.
+
+### Functions
+
+The functions are detailed in their own source code body. Examples of how to use them are available in the `HER.m` script. 
+
+```
+f_DKL_w_AND.m
+f_DKL_w_OR.m
+f_diff.m
+f_entropy.m
+f_euclidean_dist.m
+f_linear_aggregation.m
+f_loglinear_aggregation.m
+f_performance_det.m
+f_performance_prob.m
+f_her_predict.m
+f_extract_pmf_statistics.m
+f_plot_infogram.m
+f_plot_weights.m
+f_plot_prediction.m
+f_plot_probabilitymap.m
+```
+
+### Dataset of the study
+The folder contains synthetic observations used in the paper case study. Four synthetic 2D spatial datasets with grid size 100x100 were generated from known Gaussian processes. We use rational quadratic kernel as the covariance function, with correlation lengths of 6 and 18 units. For both, short- and long-range fields, a white noise was introduced given by Gaussian distribution with mean 0 and standard deviation equal to 0.5. 
+The generated sets comprise:
+	* SR0: short-range field without noise 
+	* SR1: short-range field with noise
+	* LR0: long-range field without noise 
+	* LR1: long-range field with noise
+We randomly shuffled the data, and then divided it in three mutually exclusive sets: one to generate the calibration subsets (sizes of 200, 400, 600, 800, 1000, 1500, and 2000), one for validation (containing 2000 data points), and another 2000 data points as test set.
+ 
+Each dataset file contains:
+*__idx_rand_full:__ index of the randomly shuffled data (same for all files)
+* __sample_size:__ all calibration sizes available of the dataset (same for all files)
+* __data:__ matrix with z values of the full generated dataset
+* __txt:__ dataset type (SR0, SR1, LR0, LR1)
+* __idx_cal:__ index of the calibration set
+* __idx_val:__ index of the validation set
+* __idx_test:__ index of the test set
+* __x:__ matrix with x coordinates of the full dataset
+* __x_cal:__ vector with x coordinates of the calibration set (x_cal=x(idx_cal))
+* __x_val:__ vector with x coordinates of the validation set (x_val=x(idx_val))
+* __x_test:__ vector with x coordinates of the test set (x_test=x(idx_test))
+* __y:__ matrix with y coordinates of the full dataset
+* __y_cal:__ vector with y coordinates of the calibration set (y_cal=y(idx_cal))
+* __y_val:__ vector with y coordinates of the validation set (y_val=y(idx_val))
+* __y_test:__ vector with y coordinates of the test set (y_test=y(idx_test))
+* __z:__ matrix with z values of the full generated dataset (z=data)
+* __z_cal:__ vector with z values of the calibration dataset (z_cal=z(idx_cal))
+* __z_val:__ vector with z values of the validation dataset (z_val=z(idx_val))
+* __z_test:__ vector with z values of the test dataset (z_test=z(idx_test))
+* __dim_cal:__ size of the calibration set (dim_cal=length(idx_cal))
+* __dim_val:__ size of the validation set (dim_val=length(idx_val))
+* __dim_test:__ size of the test set (dim_test=length(idx_test))
 
 
 ## Contact
