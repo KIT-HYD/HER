@@ -403,6 +403,8 @@ f_plot_weights(her);
 %% Geo3: z PMF prediction
 %GRID for ploting results
 [x_target_grid,y_target_grid] = meshgrid(1:100, 1:100); %DEFINE a grid for predicting and ploting results
+x_target_grid = round(x_target_grid,2);
+y_target_grid = round(y_target_grid,2);
 x_target = x_target_grid(:);
 y_target = y_target_grid(:);
 
