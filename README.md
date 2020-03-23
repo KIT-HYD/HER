@@ -76,6 +76,8 @@ f_plot_prediction.m
 f_plot_probabilitymap.m
 ```
 
+```f_plot``` functions were specifically built for the dataset of the study.
+
 ### Dataset of the study
 
 The folder contains synthetic observations used in the paper case study. Four synthetic 2D spatial datasets with grid size 100x100 were generated from known Gaussian processes. We use rational quadratic kernel as the covariance function, with correlation lengths of 6 and 18 units. For both, short- and long-range fields, a white noise was introduced given by Gaussian distribution with mean 0 and standard deviation equal to 0.5.

@@ -1,30 +1,28 @@
-function A = f_plot_probabilitymap(z_prob_plot, z_thresh, txt, x_target, y_target, x_target_grid, y_target_grid, x, y, z, idx_cal, idx_val, varargin)
+function A = f_plot_probabilitymap(z_prob_plot, z_thresh, txt, x_target_grid, y_target_grid, x, y, z, idx_cal, varargin)
 %% function to plot the probabilty of z > z_thresh (HER probability map)
 % -------------- Input -------------- 
-% - z_prob_plot         [T,T]or[T,1]   probability results to be ploted
+% - z_prob_plot         [T,T]          GRID of probability results to be ploted
 % - z_thresh             t             z threshold 
 % - txt                 char           dataset name
-% - x_target; y_target  [T,T]or[T,1]   x,y coordinates of the predicted values
-% - x_target_grid; y_target_grid       GRID based on the original dataset
+% - x_target_grid; y_target_grid   [T,T]    x,y coordinates of the GRID
 % - x; y                [n,1]          x,y coordinates of the original dataset
 % - z                   [n,1]          z true values the predicted locations
 % - idx_cal             [1,c]          index of the calibration set
-% - idx_val             [1,v]          index of the validation set
 % - varargin (shp_basin)  struc        basin shapefile
 
 % -------------- Version --------------
 % - 2020/03/20 Stephanie Thiesen: intial version
+% - 2020/03/23 Stephanie Thiesen: removed possibility to plot without GRID
 
 % -------------- Script --------------
 
     if length(varargin) >= 1
         shp_basin = varargin{1};
     end
-    
-    vq_pred = griddata(x_target,y_target,z_prob_plot(:),x_target_grid,y_target_grid);
+
     % probabilty map
     figure;
-    pcolor(x_target_grid, y_target_grid, vq_pred);
+    pcolor(x_target_grid, y_target_grid, z_prob_plot);
 
     xlabel('x');
     ylabel('y');
@@ -34,7 +32,6 @@ function A = f_plot_probabilitymap(z_prob_plot, z_thresh, txt, x_target, y_targe
     h=colorbar;
     hold on;
     scatter(x(idx_cal), y(idx_cal), 1+70*normalize(z(idx_cal),'range'),'r+','LineWidth',1);
-    scatter(x(idx_val), y(idx_val),1+70*normalize(z(idx_val),'range'),'g+','LineWidth',1);
     caxis([0 1]);
     title({strcat('Probability map [Probability Z>',num2str(z_thresh),'] / ', txt);''});
     pbaspect([1 1 1]);
@@ -46,6 +43,6 @@ function A = f_plot_probabilitymap(z_prob_plot, z_thresh, txt, x_target, y_targe
         hold on
         mapshow(shp_basin,'SymbolSpec', symspec_);
     end
-    legend(strcat('Probability Z>',num2str(z_thresh)), 'cal','val');
+    legend(strcat('Probability Z>',num2str(z_thresh)), 'cal');
 
 end

@@ -6,6 +6,7 @@ function A = f_plot_infogram(her)
 
 % -------------- Version --------------
 % - 2020/03/20 Stephanie Thiesen: intial version
+% - 2020/03/23 Stephanie Thiesen: added infogram plot
 
 % -------------- Script --------------
     dim_cal = length(her.mat_euc_distance_xy);
@@ -23,6 +24,21 @@ function A = f_plot_infogram(her)
     title({strcat('Infogram cloud / cal. set: ', num2str(dim_cal), ' obs.');''});
     pbaspect([1.5 1 1]);
 
+    % Infogram
+    hmax = max(her.mat_euc_distance_xy(:));
+    figure;
+    plot(her.bin_centers_distance_classes, her.H_diff_z_by_class,'Marker', '.', 'Color', 'red', 'MarkerSize', 20);
+    title({strcat('Infogram / ', her.txt);''});
+    pbaspect([1.5 1 1]);
+    hold on;
+    line([0 hmax],[her.H_diff_z her.H_diff_z], 'LineWidth', 2);
+    for i = 2 : length(her.edges_distance_classes)
+        line([her.edges_distance_classes(i),her.edges_distance_classes(i)], get(gca, 'ylim'),'Color','black','LineStyle','--');
+    end
+    legend({'Entropy of \Deltaz PMF by class', 'Entropy of the fullset \Deltaz PMF', 'Distance class limit'},'Location','southwest');
+    xlabel('Euclidean distance');
+    ylabel('Entropy [bit]');
+    
     % # of pairs/class
     fig = figure();
     left_color = [0 0 0.4];

@@ -419,8 +419,8 @@ y_target = y_target_grid(:);
 % GRID: plot maps and predicted PMFs
 [z_target_entropy_pred_GRID_plot, z_target_mean_pred_GRID_plot, z_target_median_pred_GRID_plot, z_target_mode_pred_GRID_plot, z_target_probability_pred_GRID_plot] = f_extract_pmf_statistics(x_target_grid, y_target_grid, pmf_pred_nn, her.bin_centers_edges_z, z_thresh);
 x_pmf = [10, 25, 47, 49]; y_pmf = [42, 63, 16, 73]; %coordinates to plot predicted PMF
-f_plot_prediction(z_target_mean_pred_GRID_plot, z_target_entropy_pred_GRID_plot, pmf_pred_nn, x_target, y_target, x_target_grid, y_target_grid, x, y, z, idx_cal, idx_val, her, x_pmf, y_pmf,'Y');
-% f_plot_probabilitymap(z_target_probability_pred_GRID_plot, z_thresh, txt, x_target, y_target, x_target_grid, y_target_grid, x, y, z, idx_cal, idx_val);
+f_plot_prediction(z_target_mean_pred_GRID_plot, z_target_entropy_pred_GRID_plot, pmf_pred_nn, x_target, y_target, x_target_grid, y_target_grid, x, y, z, idx_cal, her, x_pmf, y_pmf,'Y');
+% f_plot_probabilitymap(z_target_probability_pred_GRID_plot, z_thresh, txt, x_target_grid, y_target_grid, x, y, z, idx_cal);
 
 %% Calculate performance metrics
 % Root mean square error (RMSE)
