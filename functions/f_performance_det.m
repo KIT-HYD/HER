@@ -2,7 +2,7 @@ function [error_sign, RMSE, ME, MAE, NSE] = f_performance_det(z_simulated, z_tru
     % z_simulated = vector of the simulated results
     % z_true = vector of the true values
     
-    error_sign = ( z_true - z_simulated );
+    error_sign = (z_simulated - z_true);
     error_abs = abs(error_sign);
     error_2 = error_sign .^2;
     

@@ -68,6 +68,8 @@ f_linear_aggregation.m
 f_loglinear_aggregation.m
 f_performance_det.m
 f_performance_prob.m
+f_her_infogram.m
+f_her_weight.m
 f_her_predict.m
 f_extract_pmf_statistics.m
 f_plot_infogram.m
