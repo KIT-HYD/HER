@@ -34,7 +34,7 @@ __1. Load dataset__
 	Loads the dataset.
 	
 __2. Define infogram and Geo3 properties__
-	Definition of the infogram properties, aggregation method, z threshold (optional), and grid for prediction.
+	Definition of the infogram properties, aggregation method, z threshold (optional).
 	
 __3. Geo1: Spatial characterization__
 	Extracts spatial correlation patterns. ```f_her_infogram.m```
