@@ -34,19 +34,19 @@ __1. Load dataset__
 	Loads the dataset.
 	
 __2. Define infogram and Geo3 properties__
-	Definition of the infogram properties, aggregation method and grid for prediction.
+	Definition of the infogram properties, aggregation method, z threshold (optional), and grid for prediction.
 	
 __3. Geo1: Spatial characterization__
-	Extracts spatial correlation patterns.
+	Extracts spatial correlation patterns. ```f_her_infogram.m```
 
 __4. Geo2: Weight optimization__
-	Optimizes weights for the aggregation method based on entropy minimization.
+	Optimizes weights for the aggregation method based on entropy minimization. ```f_her_weight.m```
 
 __5. Geo3: z PMF prediction__
-	Applies spatial characterization and optimal weights for PMF prediction.
+	Applies spatial characterization and optimal weights for PMF prediction. ```f_her_predict.m```
 	
 __6. Extract PMF statistics__
-	Obtains mean, median, mode and probability (optional) of the predicted z PMFs and plots the results.
+	Obtains mean, median, mode and probability of a z threshold (optional) of the predicted z PMFs and plots the results.
 
 __7. Calculate performance metrics__
 	Calculates Root Mean Square Error (RMSE), Mean Error (ME), Mean Absolute Error (MAE), Nash-Sutcliffe model efficiency and scoring rule (DKL) of the validation set.  
