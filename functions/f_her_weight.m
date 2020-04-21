@@ -20,8 +20,8 @@ function [her] = f_her_weight(x_cal, y_cal, z_cal, her)
 % step 1: define edges of Z 
 max_z = max(z_cal(:));
 min_z = min(z_cal(:));
-max_diff_z = max(her.obs_diff_z(:));
-min_diff_z = min(her.obs_diff_z(:));
+max_diff_z = her.edges_diff_z_shift(end);
+min_diff_z = her.edges_diff_z_shift(1);
 
 % compute bin edges
 n_bins_left = -floor((min_diff_z + min_z)/ her.binwidth_z);
@@ -86,7 +86,7 @@ for target = 1 : length(z_cal) %for each target
                   [ones(1,bins_shift) 2:her.n_bins_shift+1 ones(1,int16(diff_n_bins_shift) - bins_shift)], ... %fill edges with 1 (zero bin)
                   int16(her.n_bins_z_per_bin_shift), []);
             pmf_ = her.pmf_diff_z_by_class_obs_range_shift(class_, :);
-            pmf_z_target_given_neigh_opt{i,target} = sum(pmf_(idx_bins_shift));
+            pmf_z_target_given_neigh_opt{i,target} = sum(pmf_(idx_bins_shift), 1);
             pmf_z_target_given_neigh_opt{i,target} = pmf_z_target_given_neigh_opt{i,target} / sum(pmf_z_target_given_neigh_opt{i,target}); %normalize
         end
     end

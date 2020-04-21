@@ -12,7 +12,7 @@ her.txt = txt; %dataset identification
 her.lag_dist = 2.0; % DEFINE the class size (lag width in meters if the input x,y is given in meters)
 her.binwidth = 0.20; % DEFINE delta z binwidth
 her.binwidth_z = her.binwidth; % DEFINE binwidth for the z PMFs
-her.n_neighbor = 12; % DEFINE the maximum number of neighbord to be considered in the interpolation and AND_OR optimization (n_neighbor-1) (min 1, max dim_cal)
+her.n_neighbor = 12; % DEFINE the maximum number of neighbord to be considered in the interpolation and AND_OR optimization (n_neighbor-1) (min 2, max dim_cal)
 %to be used in Geo3 part (no need to run Geo1 and Geo2 parts when you change it)
 her.aggregation_type = 'andor';  %DEFINE the aggregation method
 z_thresh = NaN; %DEFINE z threshold for obtaining the probability map 

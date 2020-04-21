@@ -58,6 +58,9 @@ function [pmf_pred_nn, target_idx_zero_neigh_pred] = f_her_predict(x_cal, y_cal,
             if mat_euc_distance_obs_target_pred(obs,target) == 0 %if the distance between points is zero, it will receive the first class identifier
                classes_obs_target_pred(obs,target) = 1; 
             end
+            if mat_euc_distance_obs_target_pred(obs,target) > her.edges_distance_classes_range(class_+1)               
+                classes_obs_target_pred(obs,target) = her.n_classes_range(end); 
+            end
         end    
     end  
     % Identification of the neighborless observations
@@ -120,7 +123,7 @@ function [pmf_pred_nn, target_idx_zero_neigh_pred] = f_her_predict(x_cal, y_cal,
                   [ones(1,bins_shift) 2:her.n_bins_shift+1 ones(1,int16(diff_n_bins_shift) - bins_shift)], ... %fill edges with 1 (zero bin)
                   int16(her.n_bins_z_per_bin_shift), her.n_bins_z); % matrix with one column per z PMF bin and "numbins_z_per_bin_shift" rows
             pmf_ = her.pmf_diff_z_by_class_obs_range_shift(class_, :);
-            pmf_z_target_given_neigh_pred_(obs,:) = sum(pmf_(idx_bins_shift)); %group small bins from "her.pmf_diff_z_by_class_obs_range_shift" into large z PMF bins
+            pmf_z_target_given_neigh_pred_(obs,:) = sum(pmf_(idx_bins_shift),1); %group small bins from "her.pmf_diff_z_by_class_obs_range_shift" into large z PMF bins
             pmf_z_target_given_neigh_pred_(obs,:) = pmf_z_target_given_neigh_pred_(obs,:) / sum(pmf_z_target_given_neigh_pred_(obs,:)); %normalize
         end
         % predicting z PMF with aggregation 
