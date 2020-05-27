@@ -10,7 +10,7 @@ The code and datasets are complementary parts of the study proposed by Thiesen, 
 
 ## License agreement
 
-The HER method comes with ABSOLUTELY NO WARRANTY. You are welcome to modify and redistribute it within the license agreement. The HER method is published under the CreativeCommons "BY-NC-SA 4.0" license together with a ready-to-use sample data set. To view a full version of the license agreement please visit [BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+The HER method comes with ABSOLUTELY NO WARRANTY. You are welcome to modify and redistribute it within the license agreement. The HER method is published under the CreativeCommons "CC-BY-4.0" license together with a ready-to-use sample data set. To view a full version of the license agreement please visit [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/).
 
 ## Requisites
 
