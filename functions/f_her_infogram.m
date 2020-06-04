@@ -183,5 +183,23 @@ if isnan(sum(her.pmf_diff_z_by_class_obs_range(:)))
     disp(str)
 end  
 
+% For Geo2: define edges of Z 
+max_z = max(z_cal(:));
+min_z = min(z_cal(:));
+max_diff_z = her.edges_diff_z_shift(end);
+min_diff_z = her.edges_diff_z_shift(1);
 
+% compute bin edges
+n_bins_left = -floor((min_diff_z + min_z)/ her.binwidth_z);
+n_bins_right = floor((max_diff_z + max_z)/ her.binwidth_z + 1); %edge <= x < edge
+her.n_bins_z = n_bins_left+n_bins_right;
+mini = -her.binwidth_z*n_bins_left;
+maxi =  her.binwidth_z*n_bins_right;
+her.edges_z = linspace(mini,maxi,her.n_bins_z+1); %edges of the z+diff_z pmf
+[pmf_z_all_obs,~] = histcounts(z_cal, her.edges_z,'Normalization', 'probability'); %calculate the z PMF of the full dataset 
+
+her.bin_centers_edges_z = [];
+her.bin_centers_edges_z = her.edges_z(1:length(her.edges_z)-1) + her.binwidth_z/2;
+her.bin_centers_edges_diff_z = [];
+her.bin_centers_edges_diff_z = her.edges_diff_z(1:length(her.edges_diff_z)-1) + her.binwidth/2;
 end

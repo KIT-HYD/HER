@@ -77,7 +77,7 @@ function A = f_plot_infogram(her)
     nrows = ceil(((length(her.bin_centers_distance_classes_range)) / ncols));
     for i = 1:her.n_classes_range
         subplot(nrows,ncols,i);
-        bar(her.edges_diff_z(1:end-1), her.pmf_diff_z_by_class_obs_range(i,:));%, 0.9, 'histc');
+        bar(her.bin_centers_edges_diff_z, her.pmf_diff_z_by_class_obs_range(i,:));%, 0.9, 'histc');
         title(['class ' num2str(i) ' / dist.: (' num2str(round(her.edges_distance_classes_range(i),2)) ', ' num2str(floor(her.edges_distance_classes_range(i+1))) '] ']);
         pbaspect([3 1 1]);
         xlabel('\Deltaz');
