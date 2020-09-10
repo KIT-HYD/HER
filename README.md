@@ -116,6 +116,8 @@ Each dataset file contains:
 * __dim_val:__ size of the validation set (dim_val=length(idx_val))
 * __dim_test:__ size of the test set (dim_test=length(idx_test))
 
+The synthetic field generator, using Gaussian processes, is available in scikit-learn (Pedregosa et al., 2011), while the code producing the fields can be found at
+https://github.com/mmaelicke/random_fields.
 
 ## Contact
 
