@@ -6,7 +6,7 @@ HER method brings a new perspective of spatial interpolation and uncertainty ana
 
 The code and datasets are complementary parts of the study proposed by Thiesen, Vieira, Mälicke, Loritz, Wellmann and Ehret (2020):
 
->_Thiesen, S.; Vieira, D.; Mälicke, M.; Loritz, R.; Wellmann, J. F.; Ehret, U. HER: an information theoretic alternative for geostatistics, Hydrol. Earth Syst. Sci. Discuss., https://doi.org/10.5194/hess-2020-5, in review, 2020._ 
+>_Thiesen, S.; Vieira, D.; Mälicke, M.; Loritz, R.; Wellmann, J. F.; Ehret, U. Histogram via entropy reduction (HER): an information-theoretic alternative for geostatistics, Hydrol. Earth Syst. Sci., https://doi.org/10.5194/hess-24-4523-2020, 24(9), 4523–4540, 2020._ 
 
 ## License agreement
 
